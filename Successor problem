@@ -1,0 +1,121 @@
+Successor Problem
+Send Feedback
+1. CodingNinjas has given you a number. You have to print number, preceded by given number in lexicographically sorted permutation of all digits of given number.
+2. If the number is last element of lexicographically sorted permutation of all digits of given number, then print the first element of the sorted list.
+3. For Example: 123 -> 132 and 5243 -> 5324 and 321 -> 123
+
+Explanation: The lexicographically sorted list of permutation of all digits of ‘123’ is:
+123
+132
+213
+231
+312
+321.
+And the number which succeeds 123 in this list is 132 and hence, the answer. Similarly, since 321 is the last element of this list, I have to return 123, which is first element of the list.
+Input Format:
+The first and only line of input contains an integer.
+Output Format:
+The only line of output must contain number, preceded by given number in lexicographically sorted permutation of all digits of given number.
+Constraints:
+0 <= n <= 10^9
+
+Sample Input 1:
+123
+Sample Output 1:
+132
+Sample Input 2 :
+402356
+Sample Output 2 :
+402365
+
+Custom input 1: 
+265410 
+Custom output 1:
+401256
+Custom input 1: 
+654 
+Custom output 1:
+456
+
+
+
+Solution:
+
+import java.util.*;
+
+public class Main {
+
+    // Given a number as a char array number[],  
+    // this function finds the next greater number.  
+    // It modifies the same array to store the result 
+    public static void findNext(char ar[], int n)  
+    { 
+        int i; 
+          
+        // I) Start from the right most digit  
+        // and find the first digit that is smaller  
+        // than the digit next to it. 
+        for (i = n - 1; i > 0; i--)  
+        { 
+            if (ar[i] > ar[i - 1]) { 
+                break; 
+            } 
+        } 
+          
+        // If no such digit is found, then all  
+        // digits are in descending order means  
+        // there cannot be a greater number with  
+        // same set of digits 
+        if (i == 0)  
+        { 
+            //System.out.println("Not possible"); 
+            Arrays.sort(ar, i, n);
+            for (i = 0; i < n; i++) 
+                System.out.print(ar[i]);
+            
+        }  
+        else 
+        { 
+            int x = ar[i - 1], min = i; 
+              
+            // II) Find the smallest digit on right  
+            // side of (i-1)'th digit that is greater  
+            // than number[i-1] 
+            for (int j = i + 1; j < n; j++)  
+            { 
+                if (ar[j] > x && ar[j] < ar[min])  
+                { 
+                    min = j; 
+                } 
+            } 
+  
+            // III) Swap the above found smallest  
+            // digit with number[i-1] 
+            swap(ar, i - 1, min); 
+  
+            // IV) Sort the digits after (i-1)  
+            // in ascending order 
+            Arrays.sort(ar, i, n); 
+
+            for (i = 0; i < n; i++) 
+                System.out.print(ar[i]); 
+        } 
+    } 
+    
+    public static void swap(char ar[], int i, int j)  
+    { 
+        char temp = ar[i]; 
+        ar[i] = ar[j]; 
+        ar[j] = temp; 
+    } 
+    
+    public static void main(String[] args) {
+		// Write your code here
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        char[] ar = String.valueOf(n).toCharArray();
+        findNext(ar,ar.length);
+
+	}
+
+}
