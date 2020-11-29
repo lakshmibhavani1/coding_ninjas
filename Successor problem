@@ -113,7 +113,7 @@ public class Main {
 		// Write your code here
         Scanner scan = new Scanner(System.in);
         int n = scan.nextInt();
-        char[] ar = String.valueOf(n).toCharArray();
+        char[] ar = String.valueOf(n).toCharArray();   // converts integer to char array 
         findNext(ar,ar.length);
 
 	}
