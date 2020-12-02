@@ -1,0 +1,113 @@
+Identical Arrays
+Send Feedback
+You are given two input arrays of same size n, which contains the same elements but placed in a different order. Elements present in the first or second array should be distinct. You have to make the second array same as the first array using a minimum number of swaps.
+Note: We can only make changes in the second array.
+Input format:
+The first line of input contains the size of both the input arrays(n). The following line contains n space-separated integers elements of the first array and the last line contains n space-separated elements of the second array.
+Output format:
+Minimum number of swaps required to make the two arrays identical.
+Constraints:
+0 <= n <= 1000
+Sample Input 1 :
+5
+5 1 6 9 7
+1 7 6 9 5
+Sample Output 1 :
+2
+Sample Input 2 :
+4
+4 1 2 5
+1 4 5 2
+Sample Output 2 :
+2
+
+9
+1 2 4 6 77 88 44 55 5
+44 88 6 2 1 4 5 55 77
+
+4
+4 1 2 5
+1 4 5 2
+
+5
+1 2 3 4 5
+1 2 3 4 5
+
+import java.util.Scanner;
+
+public class Main {
+
+	
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[n];
+        
+        for(int i=0;i<n;i++){
+            arr1[i] = scan.nextInt();
+        }
+        
+        for(int i=0;i<n;i++){
+            arr2[i] = scan.nextInt();
+        }
+        
+        int swap =  MinimumSwap(arr1, arr2);
+        System.out.println(swap);
+        return;
+
+	}
+    
+    public static void Swap(int[] arr, int i, int j)
+        {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    
+    public static int MinimumSwap(int[] arr1, int[] arr2)
+        {
+            int swapCount = 0;
+
+            // array size should be same to make them identical
+            if (arr1.length != arr2.length)
+            {
+                //throw new Exception("Array size are different.");
+                return -1;
+            }
+
+            // keeping first array as it is,
+            // move the items in second array to match first array 
+            for (int i = 0; i < arr1.length; i++)
+            {
+                // if the index value is not same in both the arrays
+                if (arr1[i] != arr2[i])
+                {
+                    int j = i;
+
+                    // look for the same value in second array as 
+                    // on i index of first array
+                    while (arr2[j] != arr1[i])
+                    {
+                        j++;
+                        // if j is going out of range and item is not found.
+                        if (j >= arr2.length)
+                        {
+                            //throw new Exception("Array elements are different.");
+                            return -1;
+                        }
+                    }
+
+                    // swap the items on index i and j in second array
+                    // to match the i index with first array.
+                    Swap(arr2, i, j);
+                    // increase the swap count.
+                    swapCount++;
+                }
+            }
+
+            return swapCount;
+        }
+
+
+}
