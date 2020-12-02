@@ -1,0 +1,91 @@
+Pair with given sum
+Send Feedback
+Given an array that is sorted and then rotated around an unknown point. Find if the array has a pair with a given sum ‘x’. It may be assumed that all elements in the array are distinct.
+Expected Time Complexity: O(n)
+Input format:
+The first line of input contains an integer that denotes the size of the array (n). The following line contains n space-separated integer elements of the array and the last line of input contains an integer that denotes the value of the given sum x.
+Output format:
+The only line of the output contains either true (if the given array has a pair with a given sum 'x') or false(if the given array doesn't have a pair with a given sum 'x') 
+Constraints:
+1 <= n <= 10^6
+-1e9 <= x <= 1e9
+Sample Input 1 :
+6
+11 15 26 38 9 10
+45
+Sample Output 1 :
+false
+Sample Input 2 :
+6
+3 4 5 0 1 2
+7
+Sample Output 2 :
+true
+
+10
+98 12 15 18 19 20 23 45 67 78
+3
+
+6
+3 4 5 0 1 2
+7
+
+2
+1 2
+3
+
+import java.util.Scanner;
+
+public class Main {
+
+	
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int[] arr = new int[n];
+        
+        for(int i=0;i<n;i++){
+            arr[i] = scan.nextInt();
+        }
+        
+        int target = scan.nextInt();
+        
+        System.out.println(pairInSortedRotated(arr,n,target));
+        return;
+
+	}
+    
+    public static boolean pairInSortedRotated(int arr[], int n, int x) 
+    { 
+        // Find the pivot element 
+        int i; 
+        for (i = 0; i < n - 1; i++) 
+            if (arr[i] > arr[i+1]) 
+                break; 
+                  
+        int l = (i + 1) % n; // l is now index of                                           
+                            // smallest element 
+                           
+        int r = i;       // r is now index of largest  
+                         //element 
+       
+        // Keep moving either l or r till they meet 
+        while (l != r) 
+        { 
+             // If we find a pair with sum x, we 
+             // return true 
+             if (arr[l] + arr[r] == x) 
+                  return true; 
+       
+             // If current pair sum is less, move  
+             // to the higher sum 
+             if (arr[l] + arr[r] < x) 
+                  l = (l + 1) % n; 
+                    
+             else  // Move to the lower sum side 
+                  r = (n + r - 1) % n; 
+        } 
+        return false; 
+
+}
+}
