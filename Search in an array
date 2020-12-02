@@ -1,0 +1,110 @@
+Search in an array
+Send Feedback
+Aahad and Harshit always have fun by solving problems. Harshit took a sorted array and rotated it clockwise by unknown amount. For example, he took a sorted array = [1, 2, 3, 4, 5] and if he rotates it by 2, then the array becomes: [4, 5, 1, 2, 3].
+After rotating a sorted array, Harshit gave Aahad a number which Harshit wanted him to search in the array. If he founds it, he had to shout the index of the number, otherwise he had to shout -1.
+Expected Time complexity of the code: O (log n)
+Input format:
+The first line of input contains size of the array: N
+The second line contains N space separated integers: A[i]
+The third line of input contains the key: the number which Harshit wants Aahad to search, k
+Output format:
+The first and only of output contains a integer (as specified in the task).
+Constraints
+1 <= N <= 10^6
+-10^9 <= A[i] <= 10^9
+-10^9 <= k <= 10^9
+Sample Input 1:
+5
+4 5 1 2 3
+1
+Sample Output 1:
+2
+
+10
+83 -88 -44 -19 -17 -5 28 80 81 82
+0
+
+10
+83 -88 -44 -19 -17 -5 28 80 81 82
+-88
+
+10
+83 -88 -44 -19 -17 -5 28 80 81 82
+28
+
+
+import java.util.Scanner;
+
+public class Main {
+
+	
+	public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int[] arr1 = new int[n];
+        
+        for(int i=0;i<n;i++){
+            arr1[i] = scan.nextInt();
+        }
+        int key = scan.nextInt();
+		System.out.println(pivotedBinarySearch(arr1, n, key));
+
+	}
+    
+    static int pivotedBinarySearch(int arr[], int n, int key) 
+    { 
+        int pivot = findPivot(arr, 0, n - 1); 
+  
+        // If we didn't find a pivot, then 
+        // array is not rotated at all 
+        if (pivot == -1) 
+            return binarySearch(arr, 0, n - 1, key); 
+  
+        // If we found a pivot, then first 
+        // compare with pivot and then 
+        // search in two subarrays around pivot 
+        if (arr[pivot] == key) 
+            return pivot; 
+        if (arr[0] <= key) 
+            return binarySearch(arr, 0, pivot - 1, key); 
+        return binarySearch(arr, pivot + 1, n - 1, key); 
+    } 
+  
+    /* Function to get pivot. For array  
+       3, 4, 5, 6, 1, 2 it returns 
+       3 (index of 6) */
+    public static int findPivot(int arr[], int low, int high) 
+    { 
+        // base cases 
+        if (high < low) 
+            return -1; 
+        if (high == low) 
+            return low; 
+  
+        /* low + (high - low)/2; */
+        int mid = (low + high) / 2; 
+        if (mid < high && arr[mid] > arr[mid + 1]) 
+            return mid; 
+        if (mid > low && arr[mid] < arr[mid - 1]) 
+            return (mid - 1); 
+        if (arr[low] >= arr[mid]) 
+            return findPivot(arr, low, mid - 1); 
+        return findPivot(arr, mid + 1, high); 
+    } 
+  
+    /* Standard Binary Search function */
+    public static int binarySearch(int arr[], int low, int high, int key) 
+    { 
+        if (high < low) 
+            return -1; 
+  
+        /* low + (high - low)/2; */
+        int mid = (low + high) / 2; 
+        if (key == arr[mid]) 
+            return mid; 
+        if (key > arr[mid]) 
+            return binarySearch(arr, (mid + 1), high, key); 
+        return binarySearch(arr, low, (mid - 1), key); 
+    } 
+
+}
